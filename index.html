@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="img/favicon2.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Ricky & Morty</title>
+  </head>
+  <body>
+    <main>
+      <div class="filter-container">
+        <div class="input-box-wrapper">
+          <span>Filters:</span>
+          <input id="name-filter" type="text" placeholder="Search by name" />
+        </div>
+        <div class="filters-wrapper">
+          <input id="alive-radio" type="radio" name="filter-status" />
+          <label>Alive</label>
+          <input id="dead-radio" type="radio" name="filter-status" />
+          <label>Dead</label>
+          <input id="unknown-radio" type="radio" name="filter-status" />
+          <label>unknown</label>
+          <button class="filters-button">Clear filters</button>
+        </div>
+      </div>
+      <div class="cards-container"></div>
+      <div class="pages-container">
+        <button class="left-page">&larr;</button>
+        <button class="right-page">&rarr;</button>
+      </div>
+      <footer>
+        <form>
+          <div class="form-wrapper">
+            <h2>Create your character!</h2>
+            <input name="name" type="text" placeholder="Name of character" />
+            <select name="status">
+              <option>Alive</option>
+              <option>Dead</option>
+              <option>unknown</option>
+            </select>
+            <input name="species" type="text" placeholder="Origin" />
+            <button type="submit" id="submit-btn">CREATE</button>
+          </div>
+        </form>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
