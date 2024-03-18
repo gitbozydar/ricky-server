@@ -28,26 +28,37 @@
           <button class="filters-button">Clear filters</button>
         </div>
       </div>
-      <div class="cards-container"></div>
+      <form>
+        <div class="form-wrapper">
+          <h2>Create your character!</h2>
+          <input
+            name="name"
+            type="text"
+            placeholder="Name of character"
+            required
+            id="form-input-name"
+          />
+          <select name="status">
+            <option>Alive</option>
+            <option>Dead</option>
+            <option>unknown</option>
+          </select>
+          <input
+            name="species"
+            type="text"
+            placeholder="Origin"
+            required
+            id="form-input-origin"
+          />
+          <button type="submit" id="submit-btn">CREATE</button>
+        </div>
+      </form>
       <div class="pages-container">
         <button class="left-page">&larr;</button>
         <button class="right-page">&rarr;</button>
       </div>
-      <footer>
-        <form>
-          <div class="form-wrapper">
-            <h2>Create your character!</h2>
-            <input name="name" type="text" placeholder="Name of character" />
-            <select name="status">
-              <option>Alive</option>
-              <option>Dead</option>
-              <option>unknown</option>
-            </select>
-            <input name="species" type="text" placeholder="Origin" />
-            <button type="submit" id="submit-btn">CREATE</button>
-          </div>
-        </form>
-      </footer>
+      <div class="cards-container"></div>
+      <footer></footer>
     </main>
 
     <script src="script.js"></script>

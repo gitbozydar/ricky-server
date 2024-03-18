@@ -1,8 +1,7 @@
-const rickyUrl = "https://rickandmortyapi.com/api/character";
 const serverUrl = "http://localhost:3000/character";
 const cardsContainer = document.querySelector(".cards-container");
-const paginationUp = document.querySelector(".right-page");
-const paginationDown = document.querySelector(".left-page");
+const nextPage = document.querySelector(".right-page");
+const previousPage = document.querySelector(".left-page");
 const aliveFilter = document.querySelector("#alive-radio");
 const deadFilter = document.querySelector("#dead-radio");
 const unknownFilter = document.querySelector("#unknown-radio");
@@ -11,6 +10,8 @@ const clearFiltersBtn = document.querySelector(".filters-button");
 const dataBtn = document.getElementById("add-data");
 const submitBtn = document.getElementById("submit-btn");
 const form = document.querySelector("form");
+const formNameInput = document.getElementById("form-input-name");
+const formOriginInput = document.getElementById("form-input-origin");
 let page = 1;
 let allCharacters = [];
 let limitedCharacters = [];
@@ -30,7 +31,6 @@ const removeData = async (id) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("done");
   } catch (err) {
     console.log("error: ", err);
   }
@@ -40,22 +40,19 @@ const getDataFromSerever = async (filter = "") => {
   const response = await fetch(
     `${serverUrl}?_page=${page}&_per_page=5&${filter}`
   );
-
   const data = await response.json();
   limitedCharacters = data.data;
-
-  console.log(limitedCharacters);
   displayCharacters(limitedCharacters);
 };
 
-paginationUp.addEventListener("click", () => {
+nextPage.addEventListener("click", () => {
   if (allCharacters.length / page > 5 && limitedCharacters.length === 5) {
     page += 1;
     getDataFromSerever(getSelectedFilter());
   }
 });
 
-paginationDown.addEventListener("click", () => {
+previousPage.addEventListener("click", () => {
   if (page > 1) {
     page -= 1;
     getDataFromSerever(getSelectedFilter());
@@ -84,6 +81,7 @@ nameFilterInput.addEventListener("input", () => {
     character.name.toLowerCase().includes(filterValue)
   );
   displayCharacters(filteredCharacters);
+
   if (filterValue === "") {
     displayCharacters(limitedCharacters);
   }
@@ -98,14 +96,8 @@ const displayCharacters = (characters) => {
   if (characters.length === 0) {
     displayNotFoundMessage();
   } else {
-    characters.forEach((character) => {
-      createCard(
-        character.id,
-        character.image,
-        character.name,
-        character.status,
-        character.species
-      );
+    characters.forEach(({ id, image, name, status, species }) => {
+      createCard(id, image, name, status, species);
     });
     removeNotFoundMessage();
   }
@@ -113,27 +105,29 @@ const displayCharacters = (characters) => {
 
 submitBtn.addEventListener("click", (e) => {
   handleSubmit(e);
+  alert("Created");
 });
 
 const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData(form);
-  formData.append("image", basicImg);
-
-  const data = await fetch(serverUrl);
-  const response = await data.json();
-  const id = response.length;
-  formData.append("id", id + 1);
-  const formProps = Object.fromEntries(formData);
-
-  await fetch(serverUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formProps),
-  });
   try {
+    if (formNameInput.value !== "" && formOriginInput.value !== "") {
+      e.preventDefault();
+      const formData = new FormData(form);
+      formData.append("image", basicImg);
+      const data = await fetch(serverUrl);
+      const response = await data.json();
+      const id = response.length;
+      formData.append("id", id + 1);
+      const formProps = Object.fromEntries(formData);
+
+      await fetch(serverUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formProps),
+      });
+    }
   } catch (err) {
     console.log("error: ", err);
   }
@@ -169,6 +163,7 @@ const createCard = (id, img, name, status, origin) => {
   removeBtn.addEventListener("click", async () => {
     await removeData(id);
     card.remove();
+    alert("Deleted");
   });
 
   removeBtn.className = "remove-btn";
